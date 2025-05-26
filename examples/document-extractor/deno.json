@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --env --allow-net --allow-read --allow-write --allow-env --allow-run main.ts",
+    "start": "deno run --env --allow-net --allow-read --allow-write --allow-env --allow-run main.ts"
+  },
+  "imports": {
+    "@baiq/document-parser": "jsr:@baiq/document-parser@^0.1.1",
+    "@google-cloud/storage": "npm:@google-cloud/storage@^7.16.0",
+    "@std/fs": "jsr:@std/fs@^1.0.17",
+    "@std/path": "jsr:@std/path@^1.0.9"
+  }
+}
