@@ -5,12 +5,21 @@ import { basename, dirname, join } from "@std/path";
 import { DOMParser } from "@b-fuze/deno-dom";
 import { XMLParser } from "npm:fast-xml-parser";
 
+/**
+ * Data extracted from a single XHTML page within the EPUB.
+ */
 export type PageContent = {
+  /** Paths to extracted image files. */
   images: string[];
+  /** Text paragraphs from the page. */
   paragraphs: string[];
 };
 
+/**
+ * Result returned by {@link extractEPUBContent}.
+ */
 export type EPUBExtractionResult = {
+  /** Ordered list of page contents. */
   pages: PageContent[];
 };
 
@@ -20,6 +29,12 @@ const xmlParser = new XMLParser({
   attributeNamePrefix: "",
 });
 
+/**
+ * Read an XML file from the EPUB and return it as a JavaScript object.
+ *
+ * @param zip Loaded {@link JSZip} archive.
+ * @param path Path to the file inside the archive.
+ */
 async function readXmlObj(zip: JSZip, path: string): Promise<any> {
   const file = zip.file(path);
   if (!file) throw new Error(`Missing file in epub: ${path}`);
@@ -27,20 +42,30 @@ async function readXmlObj(zip: JSZip, path: string): Promise<any> {
   try {
     return xmlParser.parse(text);
   } catch (e: unknown) {
-    const message =
-      typeof e === "object" && e !== null && "message" in e
-        ? (e as { message: string }).message
-        : String(e);
+    const message = typeof e === "object" && e !== null && "message" in e
+      ? (e as { message: string }).message
+      : String(e);
     throw new Error(`Failed to parse XML (${path}): ${message}`);
   }
 }
 
 /**
  * Extract text paragraphs and images from an EPUB file.
+ *
+ * @param epubPath Path to the EPUB file.
+ * @param outputDir Directory to write extracted images.
+ * @returns A {@link EPUBExtractionResult} describing the pages.
+ *
+ * @example
+ * ```ts
+ * import { extractEPUBContent } from "@baiq/epub-extractor";
+ * const res = await extractEPUBContent("novel.epub", "./out");
+ * console.log(res.pages.map(p => p.paragraphs.length));
+ * ```
  */
 export async function extractEPUBContent(
   epubPath: string,
-  outputDir: string
+  outputDir: string,
 ): Promise<EPUBExtractionResult> {
   await ensureDir(outputDir);
   const data = await Deno.readFile(epubPath);

@@ -1,23 +1,45 @@
 import mammoth from "mammoth";
 import { ensureDir } from "@std/fs";
-import { join, dirname } from "@std/path";
+import { dirname, join } from "@std/path";
 
+/**
+ * Represents the content extracted from a single page of a document.
+ */
 export type PageContent = {
+  /** Paths to extracted images. */
   images: string[];
+  /** Text paragraphs for the page. */
   paragraphs: string[];
 };
 
+/**
+ * Result returned from {@link extractDOCXContent}.
+ */
 export type DOCXExtractionResult = {
+  /** Ordered list of pages with extracted data. */
   pages: PageContent[];
 };
 
 /**
- * Extracts text paragraphs and images from a DOCX.
- * Treats the whole document as a single “page.”
+ * Extract text paragraphs and images from a DOCX file.
+ *
+ * This utility treats the whole document as a single "page" and saves any
+ * embedded images to the specified output directory.
+ *
+ * @param docxPath Path to the DOCX file.
+ * @param outputDir Directory where images will be written.
+ * @returns A {@link DOCXExtractionResult} describing the extracted content.
+ *
+ * @example
+ * ```ts
+ * import { extractDOCXContent } from "@baiq/docx-extractor";
+ * const result = await extractDOCXContent("book.docx", "./out");
+ * console.log(result.pages[0].paragraphs);
+ * ```
  */
 export async function extractDOCXContent(
   docxPath: string,
-  outputDir: string
+  outputDir: string,
 ): Promise<DOCXExtractionResult> {
   // Make sure the output directory exists
   await ensureDir(outputDir);
@@ -45,7 +67,7 @@ export async function extractDOCXContent(
 
         return { src: destPath };
       }),
-    }
+    },
   );
 
   const html = result.value;
@@ -53,7 +75,7 @@ export async function extractDOCXContent(
   // 1) Extract clean paragraph text
   const paragraphs = Array.from(
     html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi),
-    (m) => m[1].replace(/<[^>]+>/g, "").trim()
+    (m) => m[1].replace(/<[^>]+>/g, "").trim(),
   ).filter((p) => p.length > 0);
 
   return {
