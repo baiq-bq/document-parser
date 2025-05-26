@@ -1,0 +1,9 @@
+{
+  "name": "@baiq/docx-extractor",
+  "exports": "./mod.ts",
+  "imports": {
+    "mammoth": "npm:mammoth@^1.9.0",
+    "@std/fs": "jsr:@std/fs@^1.0.17",
+    "@std/path": "jsr:@std/path@^1.0.9"
+  }
+}
