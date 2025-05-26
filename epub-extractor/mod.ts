@@ -4,9 +4,13 @@ import { ensureDir } from "@std/fs";
 import { basename, dirname, join } from "@std/path";
 import { DOMParser } from "@b-fuze/deno-dom";
 import { XMLParser } from "npm:fast-xml-parser";
-import { PageContent } from "../types.ts";
+import type { PageContent } from "../types.ts";
 
+/**
+ * Result returned by {@link extractEPUBContent}.
+ */
 export type EPUBExtractionResult = {
+  /** Ordered list of page contents. */
   pages: PageContent[];
 };
 
@@ -16,6 +20,12 @@ const xmlParser = new XMLParser({
   attributeNamePrefix: "",
 });
 
+/**
+ * Read an XML file from the EPUB and return it as a JavaScript object.
+ *
+ * @param zip Loaded {@link JSZip} archive.
+ * @param path Path to the file inside the archive.
+ */
 async function readXmlObj(zip: JSZip, path: string): Promise<any> {
   const file = zip.file(path);
   if (!file) throw new Error(`Missing file in epub: ${path}`);
@@ -33,6 +43,17 @@ async function readXmlObj(zip: JSZip, path: string): Promise<any> {
 
 /**
  * Extract text paragraphs and images from an EPUB file.
+ *
+ * @param epubPath Path to the EPUB file.
+ * @param outputDir Directory to write extracted images.
+ * @returns A {@link EPUBExtractionResult} describing the pages.
+ *
+ * @example
+ * ```ts
+ * import { extractEPUBContent } from "@baiq/epub-extractor";
+ * const res = await extractEPUBContent("novel.epub", "./out");
+ * console.log(res.pages.map(p => p.paragraphs.length));
+ * ```
  */
 export async function extractEPUBContent(
   epubPath: string,
