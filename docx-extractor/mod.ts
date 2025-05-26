@@ -1,11 +1,7 @@
 import mammoth from "mammoth";
 import { ensureDir } from "@std/fs";
-import { join, dirname } from "@std/path";
-
-export type PageContent = {
-  images: string[];
-  paragraphs: string[];
-};
+import { join } from "@std/path";
+import type { PageContent } from "../types.ts";
 
 export type DOCXExtractionResult = {
   pages: PageContent[];

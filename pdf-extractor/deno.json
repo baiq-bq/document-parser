@@ -1,7 +1,0 @@
-{
-  "name": "@baiq/pdf-extractor",
-  "exports": "./mod.ts",
-  "imports": {
-    "$std/": "https://deno.land/std@0.216.0/"
-  }
-}

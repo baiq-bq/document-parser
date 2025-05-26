@@ -4,11 +4,7 @@ import { ensureDir } from "@std/fs";
 import { basename, dirname, join } from "@std/path";
 import { DOMParser } from "@b-fuze/deno-dom";
 import { XMLParser } from "npm:fast-xml-parser";
-
-export type PageContent = {
-  images: string[];
-  paragraphs: string[];
-};
+import { PageContent } from "../types.ts";
 
 export type EPUBExtractionResult = {
   pages: PageContent[];
