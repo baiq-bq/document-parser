@@ -22,7 +22,7 @@ import { DocExtractionResult } from "../types.ts";
  */
 export async function extractDOCXContent(
   docxPath: string,
-  outputDir: string
+  outputDir: string,
 ): Promise<DocExtractionResult> {
   // Make sure the output directory exists
   await ensureDir(outputDir);
@@ -50,7 +50,7 @@ export async function extractDOCXContent(
 
         return { src: destPath };
       }),
-    }
+    },
   );
 
   const html = result.value;
@@ -58,7 +58,7 @@ export async function extractDOCXContent(
   // 1) Extract clean paragraph text
   const paragraphs = Array.from(
     html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi),
-    (m) => m[1].replace(/<[^>]+>/g, "").trim()
+    (m) => m[1].replace(/<[^>]+>/g, "").trim(),
   ).filter((p) => p.length > 0);
 
   return {

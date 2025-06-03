@@ -25,10 +25,9 @@ async function readXmlObj(zip: JSZip, path: string): Promise<any> {
   try {
     return xmlParser.parse(text);
   } catch (e: unknown) {
-    const message =
-      typeof e === "object" && e !== null && "message" in e
-        ? (e as { message: string }).message
-        : String(e);
+    const message = typeof e === "object" && e !== null && "message" in e
+      ? (e as { message: string }).message
+      : String(e);
     throw new Error(`Failed to parse XML (${path}): ${message}`);
   }
 }
@@ -49,7 +48,7 @@ async function readXmlObj(zip: JSZip, path: string): Promise<any> {
  */
 export async function extractEPUBContent(
   epubPath: string,
-  outputDir: string
+  outputDir: string,
 ): Promise<DocExtractionResult> {
   await ensureDir(outputDir);
   const data = await Deno.readFile(epubPath);

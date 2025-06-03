@@ -5,7 +5,7 @@ import { PDFDocument } from "pdf-lib";
 import { extractPagesFromPDF } from "../pdf-page-extractor/mod.ts";
 
 const EXAMPLE_PDF = fromFileUrl(
-  new URL("./assets/example.pdf", import.meta.url)
+  new URL("./assets/example.pdf", import.meta.url),
 );
 
 Deno.test("extracts specified pages", async () => {

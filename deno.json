@@ -1,6 +1,6 @@
 {
   "name": "@baiq/document-parser",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "exports": "./mod.ts",
   "license": "MIT",
   "imports": {
@@ -15,6 +15,7 @@
   "tasks": {
     "test": "deno test --allow-read --allow-net --allow-env --allow-write --allow-run",
     "lint": "deno lint --unstable",
-    "fmt": "deno fmt --check"
+    "fmt": "deno fmt",
+    "check": "deno fmt && deno check"
   }
 }

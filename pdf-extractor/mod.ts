@@ -29,7 +29,7 @@ export type PageContent = {
  */
 export async function extractPDFContent(
   pdfPath: string,
-  outputDir: string
+  outputDir: string,
 ): Promise<DocExtractionResult> {
   // ensure our output directory exists
   await ensureDir(outputDir);
@@ -53,7 +53,7 @@ export async function extractPDFContent(
   for await (const entry of Deno.readDir(imgDir)) {
     if (!entry.isFile) continue;
     const match: RegExpMatchArray | null = entry.name.match(
-      /^img-(\d+)-(\d+)\.[^\.]+$/
+      /^img-(\d+)-(\d+)\.[^\.]+$/,
     );
     if (!match) continue;
     const pageNum: number = parseInt(match[1], 10);
@@ -67,7 +67,7 @@ export async function extractPDFContent(
 
   // 3) Build page-by-page text and attach extracted images
   const pages: PageContent[] = [];
-  for (let pageIndex: number = 1; ; pageIndex++) {
+  for (let pageIndex: number = 1;; pageIndex++) {
     const txtPath: string = join(textDir, `page-${pageIndex}.txt`);
     if (!(await exists(txtPath))) break;
 
