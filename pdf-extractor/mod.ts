@@ -1,6 +1,7 @@
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
 import { exists } from "@std/fs";
+import { DocExtractionResult } from "../types.ts";
 
 /**
  * Content extracted from a single PDF page.
@@ -13,19 +14,11 @@ export type PageContent = {
 };
 
 /**
- * Result produced by {@link extractPDFContent}.
- */
-export type PDFExtractionResult = {
-  /** Ordered list of page data. */
-  pages: PageContent[];
-};
-
-/**
  * Extract images and text from a PDF.
  *
  * @param pdfPath Path to the PDF file.
  * @param outputDir Directory to save extracted images/text.
- * @returns A {@link PDFExtractionResult} with page content.
+ * @returns A {@link DocExtractionResult} with page content.
  *
  * @example
  * ```ts
@@ -36,8 +29,8 @@ export type PDFExtractionResult = {
  */
 export async function extractPDFContent(
   pdfPath: string,
-  outputDir: string
-): Promise<PDFExtractionResult> {
+  outputDir: string,
+): Promise<DocExtractionResult> {
   // ensure our output directory exists
   await ensureDir(outputDir);
 
@@ -60,7 +53,7 @@ export async function extractPDFContent(
   for await (const entry of Deno.readDir(imgDir)) {
     if (!entry.isFile) continue;
     const match: RegExpMatchArray | null = entry.name.match(
-      /^img-(\d+)-(\d+)\.[^\.]+$/
+      /^img-(\d+)-(\d+)\.[^\.]+$/,
     );
     if (!match) continue;
     const pageNum: number = parseInt(match[1], 10);
@@ -74,7 +67,7 @@ export async function extractPDFContent(
 
   // 3) Build page-by-page text and attach extracted images
   const pages: PageContent[] = [];
-  for (let pageIndex: number = 1; ; pageIndex++) {
+  for (let pageIndex: number = 1;; pageIndex++) {
     const txtPath: string = join(textDir, `page-${pageIndex}.txt`);
     if (!(await exists(txtPath))) break;
 

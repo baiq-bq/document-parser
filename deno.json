@@ -1,6 +1,6 @@
 {
   "name": "@baiq/document-parser",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "exports": "./mod.ts",
   "license": "MIT",
   "imports": {
@@ -9,6 +9,13 @@
     "@std/path": "jsr:@std/path@^1.0.9",
     "fast-xml-parser": "npm:fast-xml-parser@^5.2.3",
     "jszip": "npm:jszip@^3.10.1",
-    "mammoth": "npm:mammoth@^1.9.0"
+    "mammoth": "npm:mammoth@^1.9.0",
+    "pdf-lib": "npm:pdf-lib@^1.17.1"
+  },
+  "tasks": {
+    "test": "deno test --allow-read --allow-net --allow-env --allow-write --allow-run",
+    "lint": "deno lint --unstable",
+    "fmt": "deno fmt",
+    "check": "deno fmt && deno check"
   }
 }

@@ -1,15 +1,7 @@
 import mammoth from "mammoth";
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
-import type { PageContent } from "../types.ts";
-
-/**
- * Result returned from {@link extractDOCXContent}.
- */
-export type DOCXExtractionResult = {
-  /** Ordered list of pages with extracted data. */
-  pages: PageContent[];
-};
+import { DocExtractionResult } from "../types.ts";
 
 /**
  * Extract text paragraphs and images from a DOCX file.
@@ -19,7 +11,7 @@ export type DOCXExtractionResult = {
  *
  * @param docxPath Path to the DOCX file.
  * @param outputDir Directory where images will be written.
- * @returns A {@link DOCXExtractionResult} describing the extracted content.
+ * @returns A {@link DocExtractionResult} describing the extracted content.
  *
  * @example
  * ```ts
@@ -30,8 +22,8 @@ export type DOCXExtractionResult = {
  */
 export async function extractDOCXContent(
   docxPath: string,
-  outputDir: string
-): Promise<DOCXExtractionResult> {
+  outputDir: string,
+): Promise<DocExtractionResult> {
   // Make sure the output directory exists
   await ensureDir(outputDir);
 
@@ -58,7 +50,7 @@ export async function extractDOCXContent(
 
         return { src: destPath };
       }),
-    }
+    },
   );
 
   const html = result.value;
@@ -66,7 +58,7 @@ export async function extractDOCXContent(
   // 1) Extract clean paragraph text
   const paragraphs = Array.from(
     html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi),
-    (m) => m[1].replace(/<[^>]+>/g, "").trim()
+    (m) => m[1].replace(/<[^>]+>/g, "").trim(),
   ).filter((p) => p.length > 0);
 
   return {
