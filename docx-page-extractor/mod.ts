@@ -43,7 +43,7 @@ export interface ExtractDocxOptions {
 export async function extractPagesFromDOCX(
   docxPath: string,
   pages: number[],
-  options: ExtractDocxOptions = {}
+  options: ExtractDocxOptions = {},
 ): Promise<string> {
   const convert = options.convert ?? defaultConvert;
   const pdfPath = await convert(docxPath);
