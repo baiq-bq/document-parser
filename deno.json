@@ -18,6 +18,5 @@
     "lint": "deno lint --unstable",
     "fmt": "deno fmt",
     "check": "deno fmt && deno check"
-  },
-  "nodeModulesDir": "auto"
+  }
 }
