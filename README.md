@@ -41,6 +41,8 @@ console.log(outPath);
 Converts a DOCX file to PDF using the `soffice` CLI and returns a new PDF
 containing only the pages you specify.
 
+It requires LibreOffice to be installed and available in your PATH.
+
 ```ts
 import { extractPagesFromDOCX } from "@baiq/document-parser";
 const outPath = await extractPagesFromDOCX("file.docx", [1, 3]);

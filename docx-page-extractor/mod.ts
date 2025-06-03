@@ -33,6 +33,8 @@ export interface ExtractDocxOptions {
  * This helper converts the DOCX to PDF using a CLI command and then
  * delegates to {@link extractPagesFromPDF}.
  *
+ * It requires the `soffice` command-line tool to be installed and available in your PATH.
+ *
  * @param docxPath Path to the DOCX file.
  * @param pages    1-based page numbers to include.
  * @param options  Optional conversion override.
@@ -41,7 +43,7 @@ export interface ExtractDocxOptions {
 export async function extractPagesFromDOCX(
   docxPath: string,
   pages: number[],
-  options: ExtractDocxOptions = {},
+  options: ExtractDocxOptions = {}
 ): Promise<string> {
   const convert = options.convert ?? defaultConvert;
   const pdfPath = await convert(docxPath);
