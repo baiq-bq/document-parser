@@ -1,10 +1,11 @@
 {
   "name": "@baiq/document-parser",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "exports": "./mod.ts",
   "license": "MIT",
   "imports": {
     "@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@^0.1.49",
+    "@std/flags": "jsr:@std/flags@^0.224.0",
     "@std/fs": "jsr:@std/fs@^1.0.17",
     "@std/path": "jsr:@std/path@^1.0.9",
     "fast-xml-parser": "npm:fast-xml-parser@^5.2.3",
@@ -17,5 +18,6 @@
     "lint": "deno lint --unstable",
     "fmt": "deno fmt",
     "check": "deno fmt && deno check"
-  }
+  },
+  "nodeModulesDir": "auto"
 }
