@@ -7,7 +7,7 @@ BIN_DIR="$DENO_INSTALL/bin"
 mkdir -p "$BIN_DIR"
 
 # 2) Pick your version and platform
-VERSION="v2.3.3"
+VERSION="v2.3.5"
 ARCHIVE="deno-x86_64-unknown-linux-gnu.zip"
 URL="https://github.com/denoland/deno/releases/download/${VERSION}/${ARCHIVE}"
 

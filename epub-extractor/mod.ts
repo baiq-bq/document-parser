@@ -4,15 +4,7 @@ import { ensureDir } from "@std/fs";
 import { basename, dirname, join } from "@std/path";
 import { DOMParser } from "@b-fuze/deno-dom";
 import { XMLParser } from "fast-xml-parser";
-import type { PageContent } from "../types.ts";
-
-/**
- * Result returned by {@link extractEPUBContent}.
- */
-export type EPUBExtractionResult = {
-  /** Ordered list of page contents. */
-  pages: PageContent[];
-};
+import type { DocExtractionResult, PageContent } from "../types.ts";
 
 // configure fast-xml-parser to expose attributes as normal props
 const xmlParser = new XMLParser({
@@ -46,7 +38,7 @@ async function readXmlObj(zip: JSZip, path: string): Promise<any> {
  *
  * @param epubPath Path to the EPUB file.
  * @param outputDir Directory to write extracted images.
- * @returns A {@link EPUBExtractionResult} describing the pages.
+ * @returns A {@link DocExtractionResult} describing the pages.
  *
  * @example
  * ```ts
@@ -58,7 +50,7 @@ async function readXmlObj(zip: JSZip, path: string): Promise<any> {
 export async function extractEPUBContent(
   epubPath: string,
   outputDir: string
-): Promise<EPUBExtractionResult> {
+): Promise<DocExtractionResult> {
   await ensureDir(outputDir);
   const data = await Deno.readFile(epubPath);
   const zip = await JSZip.loadAsync(data);

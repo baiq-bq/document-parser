@@ -1,6 +1,7 @@
 import { ensureDir } from "@std/fs";
 import { join } from "@std/path";
 import { exists } from "@std/fs";
+import { DocExtractionResult } from "../types.ts";
 
 /**
  * Content extracted from a single PDF page.
@@ -13,19 +14,11 @@ export type PageContent = {
 };
 
 /**
- * Result produced by {@link extractPDFContent}.
- */
-export type PDFExtractionResult = {
-  /** Ordered list of page data. */
-  pages: PageContent[];
-};
-
-/**
  * Extract images and text from a PDF.
  *
  * @param pdfPath Path to the PDF file.
  * @param outputDir Directory to save extracted images/text.
- * @returns A {@link PDFExtractionResult} with page content.
+ * @returns A {@link DocExtractionResult} with page content.
  *
  * @example
  * ```ts
@@ -37,7 +30,7 @@ export type PDFExtractionResult = {
 export async function extractPDFContent(
   pdfPath: string,
   outputDir: string
-): Promise<PDFExtractionResult> {
+): Promise<DocExtractionResult> {
   // ensure our output directory exists
   await ensureDir(outputDir);
 
