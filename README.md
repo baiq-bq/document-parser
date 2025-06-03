@@ -26,6 +26,16 @@ const result = await extractPDFContent("file.pdf", "./out");
 console.log(result.pages.length);
 ```
 
+## `extractPagesFromPDF`
+
+Creates a new PDF containing only the pages you specify.
+
+```ts
+import { extractPagesFromPDF } from "@baiq/document-parser";
+const outPath = await extractPagesFromPDF("file.pdf", [1, 3]);
+console.log(outPath);
+```
+
 ## `extractEPUBContent`
 
 Parses an EPUB archive to gather paragraphs and referenced images from each
