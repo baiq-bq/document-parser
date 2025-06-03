@@ -60,3 +60,16 @@ Each function returns an object of the form:
 
 Images are written to the provided output directory, and the returned paths
 reference those files.
+
+## Examples
+See the `examples` directory for usage examples and a simple HTTP service that
+demonstrates how to use these modules in practice.
+
+## HTTP Service Example
+
+This repository also includes an example HTTP service that uses these modules to
+extract content from files stored on Google Cloud Storage. The service accepts a
+`POST /extract` request with a JSON body containing a `fileUrl` pointing to a GCS
+object. It downloads the file, extracts its contents, and re-uploads any extracted
+images, returning a JSON response with signed URLs.
+
