@@ -47,13 +47,19 @@ export async function extractPagesFromDOCX(
   }
   const innerContent = bodyMatch[1];
 
-  // 4. Split into pages on the exact page-break paragraph string
-  //    We use a regex to match a page-break paragraph: <w:p>...<w:br w:type="page"/>...</w:p>
-  //    We capture everything up to but not including each page-break paragraph:
+  // 4. Split the document content on page-break paragraphs.
+  //    Page breaks are represented by a `<w:br w:type="page"/>` run inside its own
+  //    paragraph, but Word may insert additional attributes or whitespace. Use a
+  //    regex that tolerates these variations rather than matching an exact string.
+  const pageBreakRegex =
+    /<w:p[^>]*>\s*<w:r[^>]*>\s*<w:br[^>]*w:type="page"[^>]*\/?>\s*<\/w:r>\s*<\/w:p>/i;
+
+  // Standard representation used when reassembling the document
   const pageBreakTag = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
 
-  // 4a. Use a simple split() because the page-break paragraph is a standalone element
-  const pageSegments = innerContent.split(pageBreakTag);
+  // 4a. Use split with the regex so the break markers are discarded from the
+  //     resulting segments.
+  const pageSegments = innerContent.split(pageBreakRegex);
   // Now pageSegments[0] is content for page 1, pageSegments[1] is page 2, etc.
 
   // 5. Build new body inner content by joining only requested pages
@@ -88,10 +94,10 @@ export async function extractPagesFromDOCX(
 
 /**
  * Notes:
- * - This implementation assumes that every page break in the document is its own
- *   paragraph exactly matching `<w:p><w:r><w:br w:type="page"/></w:r></w:p>`. If your
- *   document has page breaks embedded within other runs or has additional attributes,
- *   you may need a more flexible regex to match.
+ * - This implementation expects page breaks to appear as standalone paragraphs
+ *   containing a `<w:br w:type="page"/>` run. The regex used to split pages
+ *   tolerates extra attributes and whitespace, but if your document structures
+ *   page breaks differently you may need to adjust the pattern.
  *
  * - By avoiding `DOMParser`, we sidestep the "unimplemented" XML parsing error.
  *   All operations on the XML are done via string manipulation and fast-xml-parser
