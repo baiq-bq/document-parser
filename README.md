@@ -35,6 +35,15 @@ import { extractPagesFromPDF } from "@baiq/document-parser";
 const outPath = await extractPagesFromPDF("file.pdf", [1, 3]);
 console.log(outPath);
 ```
+## `extractPagesFromDOCX`
+
+Creates a new DOCX containing only the pages separated by explicit page breaks.
+
+```ts
+import { extractPagesFromDOCX } from "@baiq/document-parser";
+const outPath = await extractPagesFromDOCX("file.docx", [1, 3]);
+console.log(outPath);
+```
 
 ## `extractEPUBContent`
 
