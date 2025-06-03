@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "run": "deno run --allow-read --allow-write --allow-run main.ts"
+  },
+  "imports": {
+    "@baiq/document-parser": "jsr:@baiq/document-parser@^0.1.1",
+    "@std/flags": "jsr:@std/flags@^1.0.0"
+  }
+}
